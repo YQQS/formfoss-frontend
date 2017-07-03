@@ -6,13 +6,13 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./form-prototype.component.css']
 })
 export class FormPrototypeComponent implements OnInit {
-    private animals: string[] = [
+    animals: string[] = [
         "dog",
         "cat",
         "bird",
         "monkey"
     ];
-    private selectedAnimal = "";
+    selectedAnimal = "";
 
     constructor() { }
 
