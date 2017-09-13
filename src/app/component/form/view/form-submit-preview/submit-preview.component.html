@@ -1,0 +1,9 @@
+<h2 md-dialog-title class="dialog-title">Please Confirm Your Answer</h2>
+<md-dialog-content>
+    <app-answer-view [form]="data.form" [answer]="data.answer"></app-answer-view>
+</md-dialog-content>
+
+<md-dialog-actions class="dialog-button">
+    <button md-button (click)="back()" class="button">Change submit</button>
+    <button md-raised-button color="warn" (click)="confirm()" class="button">Confirm</button>
+</md-dialog-actions>

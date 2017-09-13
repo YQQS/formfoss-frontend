@@ -1,0 +1,90 @@
+<div [formGroup]="formGroup" *ngIf="satisfyDependency()">
+    
+    <div class="question-title">{{question.title}}</div>
+    
+    <div [ngSwitch]="question.controlType">
+        
+        <div *ngSwitchCase="'textbox'">
+            <md-form-field class="textbox-question">
+                <textarea mdTextareaAutosize mdInput [formControlName]="question.key"
+                          [type]="question.inputType">{{question.value}}</textarea>
+            </md-form-field>
+            
+            <div class="alert" *ngIf="getErrors()">
+                <div *ngIf="getErrors()?.required && !getFormControl().pristine" >
+                    {{question?.title}} is required
+                </div>
+                <div *ngIf="getErrors()?.minlength" >
+                    {{question?.title}} should not less than {{question.validator.minLength}} bytes
+                </div>
+                <div *ngIf="getErrors()?.maxlength" >
+                    {{question?.title}} should not longer than {{question.validator.maxLength}} bytes
+                </div>
+                <div *ngIf="getErrors()?.email && !getFormControl().pristine && getFormControl().value?.length > 0" >
+                    not a valid email address
+                </div>
+                <div *ngIf="getErrors()?.pattern && !getFormControl().pristine">
+                    {{question?.title}} should only contain those charactors: {{question.validator.pattern}}
+                </div>
+            </div>
+        </div>
+        
+        <div *ngSwitchCase="'dropdown'" class="dropdown">
+            <div *ngIf="!question?.multiple" [formGroupName]="question.key" class="single">
+                <md-radio-group class="single-select" formControlName="normal">
+                    <md-radio-button class="select-item"
+                                     *ngFor="let opt of getSpecifiedOption()" [value]="opt.key">{{opt.value}}</md-radio-button>
+                    <md-radio-button class="select-item" *ngIf="getOtherOption()"
+                                     [value]="getOtherOption().key">{{getOtherOption().value}}: </md-radio-button>
+                </md-radio-group>
+                
+                <div>
+                    <md-form-field *ngIf="isOtherChecked()" class="input">
+                        <input mdInput formControlName="other">
+                    </md-form-field>
+                </div>
+            </div>
+            
+            <div *ngIf="question?.multiple" [formGroupName]="question.key" class="multi">
+                <div formArrayName="normal" class="multi-select">
+                    <md-checkbox class="select-item" *ngFor="let opt of question?.options; index as i"
+                                 [value]="opt.key" [formControlName]="i">
+                        {{opt.value}}
+                    </md-checkbox>
+                </div>
+                
+                <div *ngIf="isOtherChecked()">
+                    <md-form-field class="input">
+                        <input mdInput formControlName="other">
+                    </md-form-field>
+                </div>
+                
+                <div class="alert">
+                    <div *ngIf="getFormControl().get('normal').hasError('maxSelect')">
+                        select {{question.validator?.maxSelect}} items at most
+                    </div>
+                    <div *ngIf="getFormControl().get('normal').hasError('minSelect') && !getFormControl().pristine">
+                        select {{question.validator.minSelect}} items at least
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert" *ngIf="getErrors()">
+                <div *ngIf="getErrors()?.required && !getFormControl().pristine">
+                    {{question?.title}} is required
+                </div>
+            </div>
+        
+        </div>
+        
+        <div *ngSwitchCase="'slider'">
+            <md-slider class="question-slider question-item" thumbLabel tickInterval="auto"
+                       [min]="question.validator?.min" [max]="question.validator?.max" step="auto"
+                       [value]="question.value" #slider [formControlName]="question.key">
+            </md-slider>
+            <label>value: {{slider.value}}</label>
+        </div>
+    
+    </div>
+
+</div>

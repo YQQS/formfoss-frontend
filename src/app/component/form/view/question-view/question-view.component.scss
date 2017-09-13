@@ -1,0 +1,58 @@
+.dropdown {
+    display: flex;
+    flex-flow: column;
+    margin: 3px;
+}
+
+.alert {
+    font-size: 13px;
+    color: #c7254e;
+    background: #f9f2f4;
+    border-radius: 3px;
+}
+
+.textbox-question {
+    width: 100%;
+}
+
+.question-title {
+    font-size: 18px;
+    color: brown;
+}
+
+.question-select {
+    width: inherit;
+}
+
+.question-slider {
+    width: 50%;
+}
+
+.multi {
+    padding-left: 8%;
+}
+
+.multi-select {
+    display: flex;
+    flex-flow: column;
+    align-content: flex-start;
+    align-items: flex-start;
+    height: auto;
+}
+
+.single {
+    padding-left: 8%;
+}
+
+.single-select {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.select-item {
+    margin: 5px;
+}
+
+.input {
+    width: 80%;
+}
